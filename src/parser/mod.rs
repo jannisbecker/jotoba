@@ -2,18 +2,19 @@ use anyhow::Result;
 use pest::iterators::{Pair, Pairs};
 use pest::Parser;
 use pest_derive::Parser;
+use serde::{Serialize, Deserialize};
 
 #[derive(Parser)]
 #[grammar = "parser/reading.pest"]
 struct ReadingParser;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ReadingPart {
     pub part: String,
     pub reading: Option<ReadingType>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum ReadingType {
     Combined(String),
     Separate(Vec<String>),
