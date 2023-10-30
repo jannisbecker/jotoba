@@ -11,13 +11,7 @@ struct ReadingParser;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ReadingPart {
     pub part: String,
-    pub reading: Option<ReadingType>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub enum ReadingType {
-    Combined(String),
-    Separate(Vec<String>),
+    pub reading: Option<String>,
 }
 
 pub fn parse_reading_string(reading_str: &str) -> Result<Vec<ReadingPart>> {
@@ -33,32 +27,39 @@ pub fn parse_reading_string(reading_str: &str) -> Result<Vec<ReadingPart>> {
                 let kanji = inner_rules.next().unwrap().as_str();
                 let reading = inner_rules.next().unwrap().into_inner().as_str();
 
-                ReadingPart {
+                vec![ReadingPart {
                     part: kanji.into(),
-                    reading: Some(ReadingType::Combined(reading.into())),
-                }
+                    reading: Some(reading.into()),
+                }]
             }
             Rule::furi_group_multi => {
                 let mut inner_rules: Pairs<Rule> = outer_type.into_inner();
-                let kanji: &str = inner_rules.next().unwrap().as_str();
-                let readings: Vec<String> = inner_rules
-                    .map(|r| r.into_inner().as_str().into())
+                let kanji_chars: Vec<char> = inner_rules.next().unwrap().as_str().chars().collect();
+                let readings: Vec<&str> = inner_rules
+                    .map(|r| r.into_inner().as_str())
                     .collect();
 
-                ReadingPart {
-                    part: kanji.into(),
-                    reading: Some(ReadingType::Separate(readings)),
-                }
+                kanji_chars.into_iter().enumerate().map(|(index, kanji_char)| {
+                    let reading: &str = readings.get(index).unwrap_or(&"");
+
+                    ReadingPart {
+                        part: kanji_char.into(),
+                        reading: Some(reading.into()),
+                    }
+                }).collect()
+
+            
             }
             Rule::kana_str => {
                 let kana: &str = outer_type.into_inner().next().unwrap().as_str();
-                ReadingPart {
+                vec![ReadingPart {
                     part: kana.into(),
                     reading: None,
-                }
+                }]
             }
             _ => panic!("can't happen here"),
         })
+        .flatten()
         .collect();
 
     Ok(parts)
