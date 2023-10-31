@@ -8,7 +8,8 @@ pub struct Response {
 #[derive(Serialize, Deserialize)]
 pub struct Kanji {
     pub literal: String,
-    pub meanings: Vec<String>,
+    // can be missing despite not being optional in Jotoba source
+    pub meanings: Option<Vec<String>>,
     pub grade: Option<u8>,
     pub stroke_count: u8,
     pub frequency: Option<u16>,

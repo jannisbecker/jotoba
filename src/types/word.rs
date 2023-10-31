@@ -36,8 +36,8 @@ pub struct Reading {
 #[derive(Serialize, Deserialize)]
 pub struct Sense {
     pub glosses: Vec<String>,
-    // idk why this can be missing, since in the Jotoba code it doesn't have a skip_serialize. Yet it can be missing in practice..
-    pub pos: Option<Vec<PartOfSpeech>>, 
+    // can be missing despite not being optional in Jotoba source
+    pub pos: Option<Vec<PartOfSpeech>>,
     pub language: Language,
     pub dialect: Option<Dialect>,
     pub field: Option<Field>,
