@@ -2,9 +2,9 @@ use anyhow::Result;
 use pest::iterators::{Pair, Pairs};
 use pest::Parser;
 use pest_derive::Parser;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Parser)]
+#[derive(Debug, Parser)]
 #[grammar = "parser/reading.pest"]
 struct ReadingParser;
 
@@ -35,19 +35,20 @@ pub fn parse_reading_string(reading_str: &str) -> Result<Vec<ReadingPart>> {
             Rule::furi_group_multi => {
                 let mut inner_rules: Pairs<Rule> = outer_type.into_inner();
                 let kanji_chars: Vec<char> = inner_rules.next().unwrap().as_str().chars().collect();
-                let readings: Vec<&str> = inner_rules
-                    .map(|r| r.into_inner().as_str())
-                    .collect();
+                let readings: Vec<&str> = inner_rules.map(|r| r.into_inner().as_str()).collect();
 
-                kanji_chars.into_iter().enumerate().map(|(index, kanji_char)| {
-                    let reading: &str = readings.get(index).unwrap_or(&"");
+                kanji_chars
+                    .into_iter()
+                    .enumerate()
+                    .map(|(index, kanji_char)| {
+                        let reading: &str = readings.get(index).unwrap_or(&"");
 
-                    ReadingPart {
-                        part: kanji_char.into(),
-                        reading: Some(reading.into()),
-                    }
-                }).collect()
-        
+                        ReadingPart {
+                            part: kanji_char.into(),
+                            reading: Some(reading.into()),
+                        }
+                    })
+                    .collect()
             }
             Rule::kana_str => {
                 let kana: &str = outer_type.into_inner().next().unwrap().as_str();

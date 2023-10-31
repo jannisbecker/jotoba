@@ -1,6 +1,6 @@
+use crate::types::WordsQueryOptions;
 use anyhow::Result;
 use serde_json::json;
-use crate::types::WordsQueryOptions;
 
 pub mod parser;
 pub mod types;
@@ -26,6 +26,8 @@ pub async fn words(
         .await?
         .json()
         .await?;
+
+    println!("{:#?}", resp);
 
     Ok(resp)
 }

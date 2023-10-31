@@ -1,17 +1,17 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Dialect {
-        Brazilian,
-        Hokkaido,
-        Kansai,
-        Kantou,
-        Kyoto,
-        Kyuushuu,
-        Nagano,
-        Osaka,
-        Ryuukyuu,
-        Touhoku,
-        Tosa,
-        Tsugaru,
+    Brazilian,
+    Hokkaido,
+    Kansai,
+    Kantou,
+    Kyoto,
+    Kyuushuu,
+    Nagano,
+    Osaka,
+    Ryuukyuu,
+    Touhoku,
+    Tosa,
+    Tsugaru,
 }

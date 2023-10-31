@@ -1,6 +1,6 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum PartOfSpeech {
     // Adjectives
     Adjective(AdjectiveType),
@@ -35,7 +35,7 @@ pub enum PartOfSpeech {
     Verb(VerbType),
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum VerbType {
     Nidan(NidanVerb),
     Yodan(VerbEnding),
@@ -50,7 +50,7 @@ pub enum VerbType {
     Kuru,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum AdjectiveType {
     PreNounVerb,
     /// I Adjective
@@ -66,7 +66,7 @@ pub enum AdjectiveType {
     Taru,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum NounType {
     Normal,
     Adverbial,
@@ -75,7 +75,7 @@ pub enum NounType {
     Temporal,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum IrregularVerb {
     Nu,
     Ru,
@@ -85,20 +85,20 @@ pub enum IrregularVerb {
     Su,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct NidanVerb {
     class: VerbClass,
     ending: VerbEnding,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum VerbClass {
     Upper,
     Lower,
     None,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum VerbEnding {
     Bu,
     Dzu,
@@ -115,7 +115,7 @@ pub enum VerbEnding {
     Zu,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum GodanVerbEnding {
     Bu,
     Gu,
