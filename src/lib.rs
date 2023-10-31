@@ -1,6 +1,6 @@
 use anyhow::Result;
 use serde_json::json;
-use types::words::{WordsQueryOptions, WordsResponse};
+use crate::types::WordsQueryOptions;
 
 pub mod parser;
 pub mod types;
@@ -9,7 +9,7 @@ pub async fn words(
     client: &reqwest::Client,
     query: &str,
     options: Option<WordsQueryOptions>,
-) -> Result<WordsResponse> {
+) -> Result<crate::types::word::Response> {
     let WordsQueryOptions {
         language,
         no_english,
