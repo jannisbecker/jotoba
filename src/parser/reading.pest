@@ -1,5 +1,5 @@
 kanji = { HAN }
-kana  = { (HIRAGANA | KATAKANA) }
+kana  = { (HIRAGANA | KATAKANA | "ー" | "～") }
 
 kanji_str = { kanji+ }
 kana_str  = { kana+ }
@@ -8,5 +8,6 @@ reading = { "|" ~ (kana_str) }
 
 furi_group_single = { "[" ~ (kanji_str) ~ (reading) ~ "]" }
 furi_group_multi  = { "[" ~ (kanji_str) ~ (reading)+ ~ "]" }
+outside_brackets  = { kana_str | kanji_str }
 
-parser = { (furi_group_single | furi_group_multi | kana_str)+ }
+parser = { (furi_group_single | furi_group_multi | outside_brackets)+ }

@@ -1,7 +1,7 @@
 #[tokio::main]
 pub async fn main() {
     let client = reqwest::Client::new();
-    let result = jotoba_client::words(&client, "はい", None).await.unwrap();
+    let result = jotoba_client::words(&client, "オート", None).await.unwrap();
 
     let word = result.words.get(0).unwrap();
     let reading_str = word

@@ -50,7 +50,7 @@ pub fn parse_reading_string(reading_str: &str) -> Result<Vec<ReadingPart>> {
                     })
                     .collect()
             }
-            Rule::kana_str => {
+            Rule::outside_brackets => {
                 let kana: String = outer_type
                     .into_inner()
                     .map(|r| r.as_str())
