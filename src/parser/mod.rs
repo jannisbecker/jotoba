@@ -4,7 +4,7 @@ use pest::Parser;
 use pest_derive::Parser;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Parser)]
+#[derive(Parser)]
 #[grammar = "parser/reading.pest"]
 struct ReadingParser;
 
@@ -51,7 +51,12 @@ pub fn parse_reading_string(reading_str: &str) -> Result<Vec<ReadingPart>> {
                     .collect()
             }
             Rule::kana_str => {
-                let kana: &str = outer_type.into_inner().next().unwrap().as_str();
+                let kana: String = outer_type
+                    .into_inner()
+                    .map(|r| r.as_str())
+                    .collect::<Vec<&str>>()
+                    .join("");
+
                 vec![ReadingPart {
                     part: kana.into(),
                     reading: None,
